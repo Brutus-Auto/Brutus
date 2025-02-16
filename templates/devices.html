@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Parameters</title>
+    <style>
+        /* Основные цвета */
+        :root {
+            --primary-color: #388E3C; /* Темный оттенок зеленого для заголовков и акцентов */
+            --highlight-color: #4CAF50; /* Легкий зеленый для акцентов */
+            --header-text-color: #81C784; /* Светло-зеленый для заголовков */
+            --background-color: #1b1b29; /* Темный фон */
+            --card-background: #2a2a2a; /* Темный фон карточек */
+            --text-color: #e1e1e1; /* Светлый текст */
+            --muted-color: #888888; /* Для второстепенных элементов */
+            --border-color: #444444; /* Цвет границ */
+            --input-background: #3e3e3e; /* Цвет фона для полей ввода */
+            --switch-background: #666666; /* Цвет фона переключателей */
+            --switch-checked: #4CAF50; /* Зеленый при включенном переключателе */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: var(--primary-color); /* Заголовок страницы в темном зеленом */
+        }
+
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: var(--card-background);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            background-color: var(--primary-color); /* Темный зеленый для фона карточки */
+            color: white;
+            padding: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .list-group {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-group-item {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            background-color: #2a2a2a;
+        }
+
+        .list-group-item:first-child {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mb-4 {
+            margin-bottom: 20px;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+        }
+
+        .form-check-label {
+            font-weight: normal;
+            font-size: 1rem;
+        }
+
+        em {
+            color: var(--muted-color);
+        }
+
+        .switch {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .switch input {
+            width: 34px;
+            height: 20px;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: var(--switch-background);
+            border-radius: 50px;
+            position: relative;
+            transition: 0.4s;
+        }
+
+        .switch input:checked {
+            background-color: var(--switch-checked);
+        }
+
+        .switch input:before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: white;
+            transition: 0.4s;
+            left: 2px;
+            top: 1px;
+        }
+
+        .switch input:checked:before {
+            transform: translateX(14px);
+        }
+
+        .device-name {
+            color: var(--text-color); /* Цвет для названий устройств */
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Новый стиль для заголовков внутри карточек */
+        .card-body h4 {
+            color: var(--header-text-color); /* Светло-зеленый для заголовков в карточке */
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-body ul {
+            padding-left: 20px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-header {
+                font-size: 1.1rem;
+            }
+
+            .list-group-item {
+                font-size: 0.95rem;
+                padding: 10px;
+            }
+
+            .switch input {
+                width: 28px;
+                height: 16px;
+            }
+
+            .switch input:before {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+    </style>
+    <script>
+        // Функция для обновления данных
+        function updateData() {
+            fetch('/get_data')
+                .then(response => response.json())
+                .then(data => {
+                    let container = document.getElementById('device-data');
+                    container.innerHTML = ''; // Очищаем контейнер
+
+                    // Проходим по каждому устройству
+                    Object.keys(data).forEach(device => {
+                        let deviceCard = createDeviceCard(device);
+                        container.appendChild(deviceCard);
+
+                        let cardBody = deviceCard.querySelector('.card-body');
+                        updateDeviceData(cardBody, data[device], device);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Функция для обновления состояния переключателя
+        function handleSwitchChange(device, device_name, param, value) {
+            fetch(`/update_data/${device}/${device_name}/${param}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ value: value })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data updated:', data);
+            })
+            .catch(error => console.error('Error updating data:', error));
+        }
+
+        // Функция для создания карточки устройства
+        function createDeviceCard(device) {
+            let deviceCard = document.createElement('div');
+            deviceCard.classList.add('card');
+            deviceCard.id = `device-${device}`;
+
+            let cardHeader = document.createElement('div');
+            cardHeader.classList.add('card-header');
+            cardHeader.innerHTML = `<h3 class="device-name">${device}</h3>`;
+            deviceCard.appendChild(cardHeader);
+
+            let cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+            deviceCard.appendChild(cardBody);
+
+            return deviceCard;
+        }
+
+        // Функция для обновления данных устройства
+        function updateDeviceData(cardBody, deviceData, device) {
+            cardBody.innerHTML = ''; // Очищаем данные перед обновлением
+
+            // Перебираем все данные устройства
+            Object.keys(deviceData).forEach(device_name => {
+                let section = document.createElement('div');
+                section.classList.add('mb-4');
+                cardBody.appendChild(section);
+
+                let header = document.createElement('h4');
+                header.innerText = device_name;
+                section.appendChild(header);
+
+                let ul = document.createElement('ul');
+                ul.classList.add('list-group');
+                section.appendChild(ul);
+
+                let parameters = deviceData[device_name];
+                Object.keys(parameters).forEach(param => {
+                    let li = document.createElement('li');
+                    li.classList.add('list-group-item');
+
+                    // Если параметр - это булевое значение (true/false)
+                    if (typeof parameters[param] === 'boolean') {
+                        let switchDiv = document.createElement('div');
+                        switchDiv.classList.add('switch');
+
+                        let switchInput = document.createElement('input');
+                        switchInput.type = 'checkbox';
+                        switchInput.classList.add('form-check-input');
+                        switchInput.checked = parameters[param];  // Устанавливаем состояние переключателя
+
+                        switchInput.addEventListener('change', (e) => {
+                            handleSwitchChange(device, device_name, param, e.target.checked);
+                        });
+
+                        let label = document.createElement('label');
+                        label.classList.add('form-check-label');
+                        label.innerText = param;
+
+                        switchDiv.appendChild(switchInput);
+                        switchDiv.appendChild(label);
+                        li.appendChild(switchDiv);
+                    } else {
+                        // Если параметр - это значение (не булево)
+                        li.innerHTML = `<strong>${param}:</strong> ${parameters[param]}`;
+                    }
+
+                    ul.appendChild(li);
+                });
+            });
+        }
+
+        // Вызываем обновление данных через 500 миллисекунд
+        setInterval(updateData, 500);
+    </script>
+</head>
+<body>
+    <h1>WEB-STRANICHKA</h1>
+    <div id="device-data">
+        {% for device, device_data in config.items() %}
+            <div class="card" id="device-{{ device }}">
+                <div class="card-header">
+                    <h3 class="device-name">{{ device }}</h3>
+                </div>
+                <div class="card-body">
+                    {% for device_name, parameters in device_data.items() %}
+                        <div class="mb-4">
+                            <h4>{{ device_name }}</h4>
+                            <ul class="list-group">
+                                {% for param, value in parameters.items() %}
+                                    <li class="list-group-item">
+                                        <strong>{{ param }}:</strong>
+                                        {% if value is boolean %}
+                                            <div class="switch">
+                                                <input type="checkbox" class="form-check-input" {% if value %}checked{% endif %} disabled>
+                                                <label class="form-check-label">{{ param }}</label>
+                                            </div>
+                                        {% elif value is none %}
+                                            <em>N/A</em>
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

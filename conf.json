@@ -1,0 +1,126 @@
+{
+    "RS-485-1": {
+        "Climate_Living_room": {
+            "Actual Temperature": 18,
+            "Setpoint Temperature": 20,
+            "OnOff": 0,
+            "Mode": 1,
+            "Fan Speed": 1
+        },
+        "Climate_Bedroom": {
+            "Actual Temperature": 18,
+            "Setpoint Temperature": 20,
+            "OnOff": 0,
+            "Mode": 1,
+            "Fan Speed": 1
+        },
+        "Climate_Childroom": {
+            "Actual Temperature": 18,
+            "Setpoint Temperature": 20,
+            "OnOff": 0,
+            "Mode": 1,
+            "Fan Speed": 1
+        },
+        "Warm_floor_Bathroom": {
+            "Actual Temperature": 16,
+            "Setpoint Temperature": 16,
+            "OnOff": false
+        },
+        "Warm_floor_Shower": {
+            "Actual Temperature": 16,
+            "Setpoint Temperature": 16,
+            "OnOff": false
+        }
+    },
+    "RS-485-2": {
+        "A1": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "K4": false,
+            "K5": false,
+            "K6": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Input 4": false,
+            "Input 5": false,
+            "Input 6": false
+        },
+        "A2": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "K4": false,
+            "K5": false,
+            "K6": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Input 4": false,
+            "Input 5": false,
+            "Input 6": false
+        },
+        "A3": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "K4": false,
+            "K5": false,
+            "K6": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Input 4": false,
+            "Input 5": false,
+            "Input 6": false
+        },
+        "A4": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "K4": false,
+            "K5": false,
+            "K6": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Input 4": false,
+            "Input 5": false,
+            "Input 6": false
+        },
+        "D1": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Channel_1": 1,
+            "Channel_2": 1,
+            "Channel_3": 1
+        },
+        "D2": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Channel_1": 1,
+            "Channel_2": 1,
+            "Channel_3": 1
+        },
+        "D3": {
+            "K1": false,
+            "K2": false,
+            "K3": false,
+            "Input 1": false,
+            "Input 2": false,
+            "Input 3": false,
+            "Channel_1": 1,
+            "Channel_2": 1,
+            "Channel_3": 1
+        }
+    }
+}
