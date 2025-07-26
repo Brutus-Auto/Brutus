@@ -1,0 +1,39 @@
+// proto/brutus.proto
+syntax = "proto3";
+package brutus;
+
+option go_package = "brutus/proto";
+
+message Value {
+    string device = 1;
+    string parameter = 2;
+    string value = 3;
+    int64 timestamp = 4; // Unix timestamp in milliseconds
+}
+
+message Command {
+    string device = 1;
+    string parameter = 2;
+    string value = 3;
+}
+
+// Запрос истории параметров
+message HistoryRequest {
+    string device = 1;
+    string parameter = 2;
+    int64 start_timestamp = 3; // Unix timestamp in milliseconds
+    int64 end_timestamp = 4;   // Unix timestamp in milliseconds
+}
+
+// Ответ с историей значений
+message HistoryResponse {
+    repeated Value values = 1; // список значений с временными метками
+}
+
+service MQTTReceiver {
+    // Bi-directional stream: clients send Command, receive Value streams.
+    rpc DataExchange(stream Command) returns (stream Value) {}
+
+    // Получение истории значений параметра
+    rpc GetHistory(HistoryRequest) returns (HistoryResponse) {}
+}
