@@ -1,0 +1,1584 @@
+{
+    "Systems": [
+        {
+            "id": "",
+            "name": "Вентиляция",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "ПВ1",
+                    "category": "ventilation",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 401",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние фильтра",
+                            "panel_visible": "true",
+                            "param_type": "filter",
+                            "mapping": "0:Clean, 1:Dirty",
+                            "status_object": "/devices/101/controls/1"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние заслонки приточного воздуха",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/111/controls/2",
+                            "command_object": "/devices/111/controls/2/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Актуальная температура наружнего воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/121/controls/3"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уставка температуры внутреннего воздуха",
+                            "panel_visible": "false",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/131/controls/4",
+                            "command_object": "/devices/131/controls/4/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость вентилятора",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/141/controls/5"
+                        },
+                        {
+                            "id": "",
+                            "name": "Угол поворота заслонки притока",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/151/controls/6"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "ПВ2",
+                    "category": "ventilation",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 402",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние фильтра",
+                            "panel_visible": "true",
+                            "param_type": "filter",
+                            "mapping": "0:Clean, 1:Dirty",
+                            "status_object": "/devices/102/controls/7"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние заслонки приточного воздуха",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/112/controls/8",
+                            "command_object": "/devices/112/controls/8/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Актуальная температура наружнего воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/122/controls/9"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уставка температуры внутреннего воздуха",
+                            "panel_visible": "false",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/132/controls/10",
+                            "command_object": "/devices/132/controls/10/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость вентилятора",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/142/controls/11"
+                        },
+                        {
+                            "id": "",
+                            "name": "Угол поворота заслонки притока",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/152/controls/12"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "ПВ3",
+                    "category": "ventilation",
+                    "room": "Корпус 1 - Этаж 5 - Помещение 403",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние фильтра",
+                            "panel_visible": "true",
+                            "param_type": "filter",
+                            "mapping": "0:Clean, 1:Dirty",
+                            "status_object": "/devices/103/controls/13"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние заслонки приточного воздуха",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/113/controls/14",
+                            "command_object": "/devices/113/controls/14/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Актуальная температура наружнего воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/123/controls/15"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уставка температуры внутреннего воздуха",
+                            "panel_visible": "false",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/133/controls/16",
+                            "command_object": "/devices/133/controls/16/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость вентилятора",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/143/controls/17"
+                        },
+                        {
+                            "id": "",
+                            "name": "Угол поворота заслонки притока",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/153/controls/18"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "ПВ4",
+                    "category": "ventilation",
+                    "room": "Корпус 1 - Этаж 5 - Помещение 404",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние фильтра",
+                            "panel_visible": "true",
+                            "param_type": "filter",
+                            "mapping": "0:Clean, 1:Dirty",
+                            "status_object": "/devices/104/controls/19"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние заслонки приточного воздуха",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/114/controls/20",
+                            "command_object": "/devices/114/controls/20/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Актуальная температура наружнего воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/124/controls/21"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уставка температуры внутреннего воздуха",
+                            "panel_visible": "false",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/134/controls/22",
+                            "command_object": "/devices/134/controls/22/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость вентилятора",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/144/controls/23"
+                        },
+                        {
+                            "id": "",
+                            "name": "Угол поворота заслонки притока",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/154/controls/24"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "ПВ5",
+                    "category": "ventilation",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 405",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние фильтра",
+                            "panel_visible": "true",
+                            "param_type": "filter",
+                            "mapping": "0:Clean, 1:Dirty",
+                            "status_object": "/devices/105/controls/25"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние заслонки приточного воздуха",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/115/controls/26",
+                            "command_object": "/devices/115/controls/26/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Актуальная температура наружнего воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/125/controls/27"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уставка температуры внутреннего воздуха",
+                            "panel_visible": "false",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/135/controls/28",
+                            "command_object": "/devices/135/controls/28/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость вентилятора",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/145/controls/29"
+                        },
+                        {
+                            "id": "",
+                            "name": "Угол поворота заслонки притока",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/155/controls/30"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "Отопление",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "Котел 1",
+                    "category": "heating",
+                    "room": "Котельная - Корпус 3",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние котла",
+                            "panel_visible": "true",
+                            "param_type": "valve",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/201/controls/31",
+                            "command_object": "/devices/201/controls/31/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Температура подачи",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/211/controls/32"
+                        },
+                        {
+                            "id": "",
+                            "name": "Давление системы",
+                            "panel_visible": "true",
+                            "param_type": "pressure",
+                            "unit": "kPa",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/221/controls/33"
+                        },
+                        {
+                            "id": "",
+                            "name": "Мощность котла",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/231/controls/34"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Котел 2",
+                    "category": "heating",
+                    "room": "Котельная - Корпус 4",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние котла",
+                            "panel_visible": "true",
+                            "param_type": "valve",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/202/controls/35",
+                            "command_object": "/devices/202/controls/35/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Температура подачи",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/212/controls/36"
+                        },
+                        {
+                            "id": "",
+                            "name": "Давление системы",
+                            "panel_visible": "true",
+                            "param_type": "pressure",
+                            "unit": "kPa",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/222/controls/37"
+                        },
+                        {
+                            "id": "",
+                            "name": "Мощность котла",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/232/controls/38"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "Освещение",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 1",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 2 - Помещение 501",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/301/controls/39",
+                            "command_object": "/devices/301/controls/39/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/311/controls/40"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/321/controls/41"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 2",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 3 - Помещение 502",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/302/controls/42",
+                            "command_object": "/devices/302/controls/42/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/312/controls/43"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/322/controls/44"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 3",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 503",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/303/controls/45",
+                            "command_object": "/devices/303/controls/45/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/313/controls/46"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/323/controls/47"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 4",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 2 - Помещение 504",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/304/controls/48",
+                            "command_object": "/devices/304/controls/48/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/314/controls/49"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/324/controls/50"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 5",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 3 - Помещение 505",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/305/controls/51",
+                            "command_object": "/devices/305/controls/51/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/315/controls/52"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/325/controls/53"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 6",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 506",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/306/controls/54",
+                            "command_object": "/devices/306/controls/54/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/316/controls/55"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/326/controls/56"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 7",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 2 - Помещение 507",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/307/controls/57",
+                            "command_object": "/devices/307/controls/57/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/317/controls/58"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/327/controls/59"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 8",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 3 - Помещение 508",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/308/controls/60",
+                            "command_object": "/devices/308/controls/60/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/318/controls/61"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/328/controls/62"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Осветительный прибор 9",
+                    "category": "lighting",
+                    "room": "Корпус 1 - Этаж 4 - Помещение 509",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние освещения",
+                            "panel_visible": "false",
+                            "param_type": "switch",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/309/controls/63",
+                            "command_object": "/devices/309/controls/63/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Яркость",
+                            "panel_visible": "true",
+                            "param_type": "brightness",
+                            "unit": "percent",
+                            "status_object": "/devices/319/controls/64"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/329/controls/65"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "Электроснабжение",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "Электрощитовая 1",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 5 - Помещение 601",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/401/controls/66"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/411/controls/67"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/421/controls/68"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 2",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 6 - Помещение 602",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/402/controls/69"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/412/controls/70"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/422/controls/71"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 3",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 7 - Помещение 603",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/403/controls/72"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/413/controls/73"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/423/controls/74"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 4",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 8 - Помещение 604",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/404/controls/75"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/414/controls/76"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/424/controls/77"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 5",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 9 - Помещение 605",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/405/controls/78"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/415/controls/79"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/425/controls/80"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 6",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 10 - Помещение 606",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/406/controls/81"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/416/controls/82"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/426/controls/83"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 7",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 11 - Помещение 607",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/407/controls/84"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/417/controls/85"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/427/controls/86"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 8",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 12 - Помещение 608",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/408/controls/87"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/418/controls/88"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/428/controls/89"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Электрощитовая 9",
+                    "category": "power",
+                    "room": "Корпус 1 - Этаж 13 - Помещение 609",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Статус системы электроснабжения",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Normal, 1:Fault",
+                            "status_object": "/devices/409/controls/90"
+                        },
+                        {
+                            "id": "",
+                            "name": "Потребляемая мощность",
+                            "panel_visible": "true",
+                            "param_type": "power",
+                            "unit": "kW",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/419/controls/91"
+                        },
+                        {
+                            "id": "",
+                            "name": "Пропускная способность линии",
+                            "panel_visible": "false",
+                            "param_type": "bandwidth",
+                            "unit": "Mbps",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "8",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/429/controls/92"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "Водоснабжение и водоотведение",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "Насосная станция 1",
+                    "category": "water",
+                    "room": "Корпус 2 - Подвал",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние насоса",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/501/controls/93",
+                            "command_object": "/devices/501/controls/93/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Давление в системе",
+                            "panel_visible": "true",
+                            "param_type": "pressure",
+                            "unit": "kPa",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/511/controls/94"
+                        },
+                        {
+                            "id": "",
+                            "name": "Расход воды",
+                            "panel_visible": "true",
+                            "param_type": "flow",
+                            "unit": "liters",
+                            "status_object": "/devices/521/controls/95"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уровень резервуара",
+                            "panel_visible": "true",
+                            "param_type": "level",
+                            "unit": "percent",
+                            "status_object": "/devices/531/controls/96"
+                        },
+                        {
+                            "id": "",
+                            "name": "Длина трубопровода",
+                            "panel_visible": "false",
+                            "param_type": "distance",
+                            "unit": "km",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/541/controls/97"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы насоса",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/551/controls/98"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние запорного клапана",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/561/controls/99",
+                            "command_object": "/devices/561/controls/99/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Температура воды",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/571/controls/100"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "Насосная станция 2",
+                    "category": "water",
+                    "room": "Корпус 3 - Подвал",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Состояние насоса",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Off, 1:On",
+                            "status_object": "/devices/502/controls/101",
+                            "command_object": "/devices/502/controls/101/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Давление в системе",
+                            "panel_visible": "true",
+                            "param_type": "pressure",
+                            "unit": "kPa",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/512/controls/102"
+                        },
+                        {
+                            "id": "",
+                            "name": "Расход воды",
+                            "panel_visible": "true",
+                            "param_type": "flow",
+                            "unit": "liters",
+                            "status_object": "/devices/522/controls/103"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уровень резервуара",
+                            "panel_visible": "true",
+                            "param_type": "level",
+                            "unit": "percent",
+                            "status_object": "/devices/532/controls/104"
+                        },
+                        {
+                            "id": "",
+                            "name": "Длина трубопровода",
+                            "panel_visible": "false",
+                            "param_type": "distance",
+                            "unit": "km",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/542/controls/105"
+                        },
+                        {
+                            "id": "",
+                            "name": "Время работы насоса",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/552/controls/106"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние запорного клапана",
+                            "panel_visible": "false",
+                            "param_type": "valve",
+                            "mapping": "0:Close, 1:Open",
+                            "status_object": "/devices/562/controls/107",
+                            "command_object": "/devices/562/controls/107/on"
+                        },
+                        {
+                            "id": "",
+                            "name": "Температура воды",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/572/controls/108"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "Метеостанция",
+            "devices": [
+                {
+                    "id": "",
+                    "name": "Метеостанция",
+                    "category": "weather",
+                    "room": "Корпус 1 - Крыша",
+                    "parameters": [
+                        {
+                            "id": "",
+                            "name": "Температура воздуха",
+                            "panel_visible": "true",
+                            "param_type": "temperature",
+                            "unit": "fahrenheit",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "1.8",
+                                "b": "32"
+                            },
+                            "status_object": "/devices/601/controls/109"
+                        },
+                        {
+                            "id": "",
+                            "name": "Давление воздуха",
+                            "panel_visible": "true",
+                            "param_type": "pressure",
+                            "unit": "kPa",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/611/controls/110"
+                        },
+                        {
+                            "id": "",
+                            "name": "Относительная влажность",
+                            "panel_visible": "true",
+                            "param_type": "humidity",
+                            "unit": "percent",
+                            "status_object": "/devices/621/controls/111"
+                        },
+                        {
+                            "id": "",
+                            "name": "Скорость ветра",
+                            "panel_visible": "true",
+                            "param_type": "speed",
+                            "unit": "km/h",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "3.6",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/631/controls/112"
+                        },
+                        {
+                            "id": "",
+                            "name": "Направление ветра",
+                            "panel_visible": "true",
+                            "param_type": "angle",
+                            "unit": "radian",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.0174533",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/641/controls/113"
+                        },
+                        {
+                            "id": "",
+                            "name": "Осадки",
+                            "panel_visible": "true",
+                            "param_type": "precipitation",
+                            "unit": "liters",
+                            "status_object": "/devices/651/controls/114"
+                        },
+                        {
+                            "id": "",
+                            "name": "UV-индекс",
+                            "panel_visible": "false",
+                            "param_type": "radiation",
+                            "unit": "percent",
+                            "status_object": "/devices/661/controls/115"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уровень освещённости",
+                            "panel_visible": "false",
+                            "param_type": "illumination",
+                            "unit": "percent",
+                            "status_object": "/devices/671/controls/116"
+                        },
+                        {
+                            "id": "",
+                            "name": "Уровень заряда батареи",
+                            "panel_visible": "false",
+                            "param_type": "battery",
+                            "unit": "percent",
+                            "status_object": "/devices/681/controls/117"
+                        },
+                        {
+                            "id": "",
+                            "name": "Высота над уровнем моря",
+                            "panel_visible": "false",
+                            "param_type": "distance",
+                            "unit": "km",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.001",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/691/controls/118"
+                        },
+                        {
+                            "id": "",
+                            "name": "Наработка метеостанции",
+                            "panel_visible": "false",
+                            "param_type": "time",
+                            "unit": "hours",
+                            "transforms": {
+                                "type": "linear",
+                                "k": "0.000277778",
+                                "b": "0"
+                            },
+                            "status_object": "/devices/701/controls/119"
+                        },
+                        {
+                            "id": "",
+                            "name": "Состояние датчиков",
+                            "panel_visible": "false",
+                            "param_type": "status",
+                            "mapping": "0:Ok, 1:Error",
+                            "status_object": "/devices/711/controls/120"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-// internal/mqttreceiver/config/logger.go
+// internal/mqttreceiver/logger/logger.go
 
 package logger
 
@@ -13,7 +13,7 @@ import (
 
 var Log zerolog.Logger
 
-func Init() {
+func Init(log_level string) {
 	output := zerolog.ConsoleWriter{
 		Out:        os.Stdout,
 		TimeFormat: time.RFC3339,
@@ -25,12 +25,7 @@ func Init() {
 		},
 	}
 
-	levelStr := os.Getenv("LOG_LEVEL")
-	if levelStr == "" {
-		levelStr = "info"
-	}
-
-	lvl, err := zerolog.ParseLevel(strings.ToLower(levelStr))
+	lvl, err := zerolog.ParseLevel(strings.ToLower(log_level))
 	if err != nil {
 		lvl = zerolog.InfoLevel
 	}

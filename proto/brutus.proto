@@ -1,39 +1,122 @@
-// proto/brutus.proto
 syntax = "proto3";
 package brutus;
 
-option go_package = "brutus/proto";
+option go_package = "brutus/proto;proto";
 
-message Value {
-    string device = 1;
-    string parameter = 2;
-    string value = 3;
-    int64 timestamp = 4; // Unix timestamp in milliseconds
+import "google/protobuf/empty.proto";
+
+// -------------------------
+// Общие сообщения
+// -------------------------
+
+// Описание системы
+message SystemInfo {
+    int32 system_id = 1;
+    string name = 2;
 }
 
-message Command {
-    string device = 1;
-    string parameter = 2;
-    string value = 3;
+// Описание устройства
+message DeviceInfo {
+    int32 device_id = 1;
+    int32 system_id = 2;
+    string name = 3;
+    string category = 4;
+    string room = 5;
 }
 
-// Запрос истории параметров
+// Описание параметра
+message ParameterInfo {
+    int32 parameter_id = 1;
+    string name = 2;
+    string unit = 3;
+    string type = 4;
+    int32 panel_visible = 5; // 1 - видим, 0 - скрыт
+    bool is_control = 6;     // true - управляемый параметр, false - только мониторинг
+}
+
+// Текущее значение или запись истории параметра
+message ParameterUpdate {
+    int32 parameter_id = 1;
+    string value = 2;
+    int64 timestamp = 5; // Unix millis
+}
+
+// Аутентификация
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+}
+message LoginResponse {
+    string token = 1;
+}
+
+// Подписка на обновления
+// Клиент указывает, какие параметры хочет слушать
+message SubscribeRequest {
+    repeated int32 parameter_ids = 1;
+}
+
+// -------------------------
+// Работа с системами, устройствами и параметрами
+// -------------------------
+
+message ListSystemsResponse {
+    repeated SystemInfo systems = 1;
+}
+
+message ListDevicesRequest {
+    int32 system_id = 1;
+}
+message ListDevicesResponse {
+    repeated DeviceInfo devices = 1;
+}
+
+message ListParametersRequest {
+    int32 device_id = 1;
+    bool visible_only = 2; // вернуть только panel_visible=1, если true
+}
+message ListParametersResponse {
+    repeated ParameterInfo parameters = 1;
+}
+
+// История значений
 message HistoryRequest {
-    string device = 1;
-    string parameter = 2;
-    int64 start_timestamp = 3; // Unix timestamp in milliseconds
-    int64 end_timestamp = 4;   // Unix timestamp in milliseconds
+    int32 parameter_id = 1;
+    int64 start_timestamp = 2;
+    int64 end_timestamp = 3;
 }
-
-// Ответ с историей значений
 message HistoryResponse {
-    repeated Value values = 1; // список значений с временными метками
+    repeated ParameterUpdate values = 1;
 }
 
-service MQTTReceiver {
-    // Bi-directional stream: clients send Command, receive Value streams.
-    rpc DataExchange(stream Command) returns (stream Value) {}
+// Команды параметрам
+message SetParameterRequest {
+    int32 parameter_id = 1;
+    string value = 2;
+}
+message SetParameterResponse {
+    bool success = 1;
+    ParameterUpdate updated = 2; // опционально вернуть новое значение
+}
 
-    // Получение истории значений параметра
-    rpc GetHistory(HistoryRequest) returns (HistoryResponse) {}
+// -------------------------
+// Сервис
+// -------------------------
+service MQTTReceiver {
+    // Авторизация
+    rpc Login(LoginRequest) returns (LoginResponse);
+
+    // Подписка на поток изменений
+    rpc SubscribeParameters(SubscribeRequest) returns (stream ParameterUpdate);
+
+    // Получение информации об объекте
+    rpc ListSystems(google.protobuf.Empty) returns (ListSystemsResponse);
+    rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+    rpc ListParameters(ListParametersRequest) returns (ListParametersResponse);
+
+    // История значений
+    rpc GetParameterHistory(HistoryRequest) returns (HistoryResponse);
+
+    // Отправка команды параметру
+    rpc SetParameter(SetParameterRequest) returns (SetParameterResponse);
 }

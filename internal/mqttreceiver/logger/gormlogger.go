@@ -1,4 +1,4 @@
-// internal/mqttreceiver/config/gormlogger.go
+// internal/mqttreceiver/logger/gormlogger.go
 
 package logger
 

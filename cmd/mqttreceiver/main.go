@@ -1,135 +1,234 @@
-// cmd/mqttreceiver/main.go
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 	"time"
 
 	"brutus/internal/mqttreceiver/config"
-	"brutus/internal/mqttreceiver/grpc"
+	grpcserver "brutus/internal/mqttreceiver/grpc"
 	"brutus/internal/mqttreceiver/logger"
 	"brutus/internal/mqttreceiver/metrics"
 	"brutus/internal/mqttreceiver/mqtt"
 	"brutus/internal/mqttreceiver/storage"
+	pb "brutus/proto"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-// Структура сообщений в приниающем канале с брокера
-type IngestMessage struct {
-	Device    string
-	Parameter string
-	Value     string
-}
-
 func main() {
-
-	// Загрузка конфигурации
-	cfg, err := config.LoadConfig()
+	// 1. Load environment / config
+	cfg, err := config.LoadEnvironment()
 	if err != nil {
-		panic(fmt.Errorf("config error: %v", err))
-	}
-	// Инициализация логгера
-	logger.Init()
-
-	// Инициализация БД
-	db, err := storage.Initialized(cfg.DBFile)
-	if err != nil {
-		logger.Log.Fatal().
-			Str("component", "main").
-			Err(err).
-			Msg("Database init failed")
+		panic(fmt.Sprintf("Failed to load .env: %v", err))
 	}
 
-	// Запукаем горутину для очистки старых записей в истории значений
+	// 2. Init logger
+	logger.Init(cfg.LogLevel)
+
+	// 3. Init metrics and expose /metrics
+	metrics.Init()
+
+	metricsAddr := fmt.Sprintf(":%d", cfg.MetricsPort) // <-- используем порт из конфигурации
 	go func() {
+		http.Handle("/metrics", promhttp.Handler())
+		logger.Log.Info().Str("addr", metricsAddr).Msg("Starting metrics HTTP server")
+		if err := http.ListenAndServe(metricsAddr, nil); err != nil && err != http.ErrServerClosed {
+			logger.Log.Error().Err(err).Msg("Metrics HTTP server failed")
+		}
+	}()
+
+	// 4. Init DB
+	db, err := storage.Init(cfg.DBFile)
+	if err != nil {
+		logger.Log.Fatal().Err(err).Msg("Database init failed")
+	}
+	defer func() {
+		_ = db.Close()
+	}()
+
+	// 5. Periodic cleanup of old history
+	ctx, cancel := context.WithCancel(context.Background())
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
 		ticker := time.NewTicker(24 * time.Hour)
 		defer ticker.Stop()
-
-		for range ticker.C {
-			logger.Log.Info().Str("component", "main").Msg("Starting history cleanup")
-			if err := db.CleanOldHistory(cfg.HistoryRetentionDays); err != nil {
-				logger.Log.Error().Str("component", "main").Err(err).Msg("Failed to clean old history")
-			} else {
-				logger.Log.Info().Str("component", "main").Msg("Old history cleaned successfully")
+		// run once at start
+		if err := db.CleanOldHistory(cfg.HistoryRetentionDays); err != nil {
+			logger.Log.Error().Err(err).Msg("Initial history cleanup failed")
+		}
+		for {
+			select {
+			case <-ticker.C:
+				logger.Log.Info().Msg("Starting scheduled history cleanup")
+				if err := db.CleanOldHistory(cfg.HistoryRetentionDays); err != nil {
+					logger.Log.Error().Err(err).Msg("Failed to clean old history")
+				}
+			case <-ctx.Done():
+				logger.Log.Info().Msg("History cleanup goroutine stopping")
+				return
 			}
 		}
 	}()
 
-	var mqttClient *mqtt.Client
-	grpcSrv := grpc.NewServer(db, mqttClient)
+	// // 6. Import config into DB (idempotent)
+	// conf, err := config.LoadConfig(cfg.ConfigPath)
+	// if err != nil {
+	// 	logger.Log.Fatal().Err(err).Msg("Failed to load config")
+	// }
+	// if err := db.ImportConfig(conf); err != nil {
+	// 	logger.Log.Fatal().Err(err).Msg("Failed to import config into DB")
+	// }
 
-	// Объявляем канал с настраиваемым размером
-	ingestQueue := make(chan IngestMessage, cfg.MQTTIngestQueueSize)
-
-	// Условие для Воркеров, чтобы обрабатывать сообщения
-	for i := 0; i < cfg.WorkerCount; i++ {
-		// Отдельная горутина для каждого Воркера
-		go func() {
-			// Обрабатываем сообщения сообщение
-			for msg := range ingestQueue {
-				metrics.IngestQueueLength.Set(float64(len(ingestQueue)))
-				start := time.Now()
-
-				if err := db.SaveValue(msg.Device, msg.Parameter, msg.Value); err != nil {
-					logger.Log.Error().
-						Str("component", "ingestWorker").
-						Err(err).
-						Msg("Failed to save value")
-					metrics.MsgErrors.Inc()
-					continue
-				}
-
-				grpcSrv.BroadcastValue(msg.Device, msg.Parameter, msg.Value, time.Now().Unix())
-				metrics.ProcessingTime.Observe(time.Since(start).Seconds())
-			}
-		}()
+	// 7. Build topic -> parameter_id map (and list of topics)
+	paramsWithStatus, err := db.ParametersWithStatus()
+	if err != nil {
+		logger.Log.Fatal().Err(err).Msg("Failed to fetch parameters with status_object")
 	}
-	// Если буфер полон, то дропаем сообщение, иначе запись в буфер
-	mqttHandler := func(device, parameter, value string) {
-		select {
-		case ingestQueue <- IngestMessage{device, parameter, value}:
-			metrics.MsgReceived.Inc()
-			metrics.IngestQueueLength.Set(float64(len(ingestQueue)))
-		default:
-			metrics.DroppedMessages.Inc()
-			logger.Log.Warn().
-				Str("component", "mqttHandler").
-				Str("device", device).
-				Str("parameter", parameter).
-				Msg("Dropped incoming message — ingestQueue full")
+
+	statusToParam := make(map[string]uint, len(paramsWithStatus))
+	topics := make([]string, 0, len(paramsWithStatus))
+	for _, p := range paramsWithStatus {
+		if p.StatusObject != nil && *p.StatusObject != "" {
+			topics = append(topics, *p.StatusObject)
+			statusToParam[*p.StatusObject] = p.ParameterID
 		}
 	}
-	// Подключение к брокеру
-	mqttClient, err = mqtt.NewClient(
+	// Protect map for safe concurrent access in case of dynamic reloads later
+	var statusMu sync.RWMutex
+
+	// 8. Channel for DB ingest + DB writer goroutine
+	dbWriteChan := make(chan storage.IngestMessage, 4000) // configurable
+	// Monitor queue length (set periodically)
+	go func() {
+		t := time.NewTicker(1 * time.Second)
+		defer t.Stop()
+		for range t.C {
+			metrics.IngestQueueLength.Set(float64(len(dbWriteChan)))
+		}
+	}()
+
+	// Create gRPC server instance (pass DB and mqtt client later)
+	// We'll create mqtt client first, then create grpc server with mqtt client reference so SetParameter can publish.
+
+	// 9. MQTT client (callback pushes to dbWriteChan)
+	mqttClient, err := mqtt.NewClient(
 		cfg.MQTTHost,
 		cfg.MQTTClientID,
-		cfg.MQTTTopics,
+		topics,
 		cfg.MQTTSubscribeQoS,
 		cfg.MQTTPublishQoS,
 		cfg.MQTTUsername,
 		cfg.MQTTPassword,
-		mqttHandler,
+		func(topic, payload string) {
+			// quick lookup: topic -> parameterID
+			statusMu.RLock()
+			paramID, ok := statusToParam[topic]
+			statusMu.RUnlock()
+			if !ok {
+				logger.Log.Warn().Str("topic", topic).Msg("Unknown MQTT topic (no mapping to parameter_id)")
+				metrics.MsgErrors.Inc()
+				return
+			}
+			select {
+			case dbWriteChan <- storage.IngestMessage{ParameterID: paramID, Value: payload}:
+				// queued
+			default:
+				// queue full — drop message
+				metrics.DroppedMessages.Inc()
+				logger.Log.Warn().Str("topic", topic).Msg("Ingest queue full, dropping message")
+			}
+		},
 	)
 	if err != nil {
-		logger.Log.Fatal().Str("component", "main").Err(err).Msg("MQTT client init failed")
+		logger.Log.Fatal().Err(err).Msg("Failed to create MQTT client")
 	}
-	grpcSrv.SetMQTTClient(mqttClient)
 
-	http.Handle("/metrics", promhttp.Handler())
+	// 10. gRPC server
+	grpcSrv := grpcserver.NewServer(db, mqttClient)
+
+	// Start gRPC server in goroutine
+	wg.Add(1)
 	go func() {
-		addr := fmt.Sprintf(":%d", cfg.MetricsPort)
-		logger.Log.Info().
-			Str("component", "main").
-			Str("metrics_addr", addr).
-			Msg("Metrics endpoint listening")
-		if err := http.ListenAndServe(addr, nil); err != nil {
-			logger.Log.Fatal().Str("component", "main").Err(err).Msg("Metrics server failed")
+		defer wg.Done()
+		if err := grpcSrv.Start(cfg.GRPCPort); err != nil {
+			// Serve returns non-nil on fatal errors; log them.
+			logger.Log.Fatal().Err(err).Msg("gRPC server exited with error")
 		}
 	}()
 
-	if err := grpcSrv.Start(cfg.GRPCPort); err != nil {
-		logger.Log.Fatal().Str("component", "main").Err(err).Msg("gRPC server failed")
+	// Start gRPC-Web HTTP server in goroutine (for browser clients)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := grpcSrv.StartWeb(cfg.GRPCWebPort, nil); err != nil {
+			logger.Log.Fatal().Err(err).Msg("gRPC-Web server exited with error")
+		}
+	}()
+
+	// 11. DB writer goroutine: consumes dbWriteChan, writes to DB, broadcasts via gRPC
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for msg := range dbWriteChan {
+			start := time.Now()
+			if err := db.SaveValue(msg.ParameterID, msg.Value); err != nil {
+				logger.Log.Error().Uint("parameter_id", msg.ParameterID).Err(err).Msg("Failed to save parameter value")
+				metrics.MsgErrors.Inc()
+			} else {
+				// on success, broadcast via gRPC
+				update := &pb.ParameterUpdate{
+					ParameterId: int32(msg.ParameterID),
+					Value:       msg.Value,
+					Timestamp:   time.Now().UnixMilli(),
+				}
+				grpcSrv.BroadcastValue(update)
+			}
+			metrics.ProcessingTime.Observe(time.Since(start).Seconds())
+		}
+		logger.Log.Info().Msg("DB writer goroutine stopped (dbWriteChan closed)")
+	}()
+
+	// 12. Handle graceful shutdown
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+
+	<-stop // wait for signal
+	logger.Log.Info().Msg("Shutdown signal received, stopping...")
+
+	// 12.1 stop accepting new messages: stop MQTT subscription and disconnect
+	// Paho client provides Disconnect — our wrapper embeds mqtt.Client so it has Disconnect method
+	if mqttClient != nil {
+		// give 250ms to finish pending work on network
+		mqttClient.Disconnect(250)
+		logger.Log.Info().Msg("MQTT client disconnected")
 	}
+
+	// 12.2 stop DB writer: close channel and wait for goroutines to finish
+	close(dbWriteChan)
+	// cancel cleanup goroutine
+	cancel()
+
+	// wait for goroutines (db writer, grpc server goroutine, cleanup goroutine) to finish
+	waitCh := make(chan struct{})
+	go func() {
+		wg.Wait()
+		close(waitCh)
+	}()
+	// give some time for graceful shutdown
+	select {
+	case <-waitCh:
+		logger.Log.Info().Msg("All goroutines exited")
+	case <-time.After(5 * time.Second):
+		logger.Log.Warn().Msg("Timeout waiting for goroutines to stop")
+	}
+
+	logger.Log.Info().Msg("Shutdown complete")
 }

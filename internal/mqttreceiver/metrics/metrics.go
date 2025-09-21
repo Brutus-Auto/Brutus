@@ -1,8 +1,10 @@
-// internal/mqttreceiver/metrics/metrics.go
-
 package metrics
 
-import "github.com/prometheus/client_golang/prometheus"
+import (
+	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+)
 
 var (
 	MsgReceived = prometheus.NewCounter(prometheus.CounterOpts{
@@ -36,11 +38,69 @@ var (
 	})
 )
 
-func init() {
-	prometheus.MustRegister(
-		MsgReceived, MsgErrors,
-		ProcessingTime, BrokerConnected,
-		DroppedMessages, IngestQueueLength,
-		BroadcastDropped,
-	)
+var allCollectors = []prometheus.Collector{
+	MsgReceived,
+	MsgErrors,
+	ProcessingTime,
+	BrokerConnected,
+	DroppedMessages,
+	IngestQueueLength,
+	BroadcastDropped,
+}
+
+// Init registers all metrics with Prometheus registry.
+// It is safe to call multiple times: already-registered collectors are ignored.
+func Init() {
+	for _, c := range allCollectors {
+		if err := prometheus.Register(c); err != nil {
+			if are, ok := err.(prometheus.AlreadyRegisteredError); ok {
+				// if already registered — use the existing one (no-op)
+				_ = are
+				continue
+			}
+			// other errors are unexpected — panic to fail fast
+			panic(err)
+		}
+	}
+}
+
+// Helper wrappers (convenience functions)
+
+// IncMsgReceived increments the received messages counter.
+func IncMsgReceived() {
+	MsgReceived.Inc()
+}
+
+// IncMsgErrors increments the message error counter.
+func IncMsgErrors() {
+	MsgErrors.Inc()
+}
+
+// ObserveProcessingTime records processing time in seconds.
+func ObserveProcessingTime(d time.Duration) {
+	ProcessingTime.Observe(d.Seconds())
+}
+
+// SetBrokerConnected sets the broker connected gauge: 1 = connected, 0 = disconnected.
+func SetBrokerConnected(connected bool) {
+	if connected {
+		BrokerConnected.Set(1)
+	} else {
+		BrokerConnected.Set(0)
+	}
+}
+
+// IncDroppedMessages increments the dropped messages counter.
+func IncDroppedMessages() {
+	DroppedMessages.Inc()
+}
+
+// SetIngestQueueLength sets the current ingest queue length gauge.
+func SetIngestQueueLength(n int) {
+	IngestQueueLength.Set(float64(n))
+}
+
+// IncBroadcastDropped increments the broadcast dropped counter.
+func IncBroadcastDropped() {
+	BroadcastDropped.Inc()
 }
